@@ -60,11 +60,11 @@ name: my-project
 version: 1.0.0
 dependencies:
   apm:
-    - your-username/devflow/skills/planner
-    - your-username/devflow/skills/executor
-    - your-username/devflow/skills/tester
-    - your-username/devflow/skills/pr-creator
-    - your-username/devflow/skills/reviewer
+    - Aman-6875/devflow/skills/planner
+    - Aman-6875/devflow/skills/executor
+    - Aman-6875/devflow/skills/tester
+    - Aman-6875/devflow/skills/pr-creator
+    - Aman-6875/devflow/skills/reviewer
 ```
 
 Then:
@@ -80,7 +80,7 @@ into the right format for your target AI client.
 ### Manual install (Claude Code)
 
 ```bash
-git clone https://github.com/your-username/devflow.git ~/devflow
+git clone https://github.com/Aman-6875/devflow.git ~/devflow
 ln -s ~/devflow/skills/* ~/.claude/skills/
 ```
 
