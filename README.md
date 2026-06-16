@@ -41,48 +41,123 @@ auto-chains. You stay in control.
 
 ## Install
 
-### Via APM (recommended)
+There are two ways to install devflow. **APM is recommended** because
+it works across every supported AI client with one config file.
 
-Install the APM CLI:
+### Option 1 — Via APM (recommended)
+
+#### Step 1. Install the APM CLI (one-time, per machine)
 
 ```bash
 # macOS / Linux
 curl -sSL https://aka.ms/apm-unix | sh
 
-# Windows
+# Windows (PowerShell)
 irm https://aka.ms/apm-windows | iex
 ```
 
-In your project, declare the devflow skills you want in `apm.yml`:
+Verify the install:
+
+```bash
+apm --version
+```
+
+#### Step 2. Create an `apm.yml` in your project root
 
 ```yaml
 name: my-project
 version: 1.0.0
+
+# Which AI client(s) should APM deploy skills to.
+# Pick one or more from the table below.
+targets:
+  - claude
+
 dependencies:
   apm:
-    - Aman-6875/devflow/skills/planner
-    - Aman-6875/devflow/skills/executor
-    - Aman-6875/devflow/skills/tester
-    - Aman-6875/devflow/skills/pr-creator
-    - Aman-6875/devflow/skills/reviewer
+    # Pin to a tag for reproducible installs. Drop the #v0.1.0 to track main.
+    - Aman-6875/devflow/skills/planner#v0.1.0
+    - Aman-6875/devflow/skills/executor#v0.1.0
+    - Aman-6875/devflow/skills/tester#v0.1.0
+    - Aman-6875/devflow/skills/pr-creator#v0.1.0
+    - Aman-6875/devflow/skills/reviewer#v0.1.0
 ```
 
-Then:
+You can drop any skill you don't want — pick à la carte.
+
+**Supported targets:**
+
+| AI Client          | `targets:` value |
+|--------------------|------------------|
+| Claude Code        | `claude`         |
+| GitHub Copilot     | `copilot`        |
+| Cursor             | `cursor`         |
+| OpenCode           | `opencode`       |
+| Codex              | `codex`          |
+| Gemini             | `gemini`         |
+| Windsurf           | `windsurf`       |
+
+#### Step 3. Install
 
 ```bash
 apm install
-apm compile -t claude    # or -t copilot, -t cursor, etc.
 ```
 
-APM resolves and installs the skills; `apm compile` transforms them
-into the right format for your target AI client.
+APM resolves the skills, downloads them, and integrates them into your
+chosen target client's expected location (`.claude/skills/`,
+`.github/copilot-instructions.md`, `.cursor/`, etc.). It also writes
+`apm.lock.yaml` for reproducibility and adds `apm_modules/` to your
+`.gitignore`.
 
-### Manual install (Claude Code)
+#### Step 4. Restart your AI client
+
+Restart your editor / AI client so it picks up the new skills. Then
+verify:
+
+- Type `/planner` and confirm the skill is available
+- Or describe a task naturally and watch the right skill auto-trigger
+
+#### Updating later
+
+```bash
+apm update              # pull the latest within your version constraints
+apm install <pkg>       # add a new skill
+```
+
+---
+
+### Option 2 — Manual install (Claude Code only)
+
+For a quick try without APM:
 
 ```bash
 git clone https://github.com/Aman-6875/devflow.git ~/devflow
+mkdir -p ~/.claude/skills
 ln -s ~/devflow/skills/* ~/.claude/skills/
 ```
+
+Restart Claude Code and the skills will be available globally on your
+machine. Use this for local testing; prefer **Option 1** for any
+shared / team / CI workflow.
+
+---
+
+### Troubleshooting
+
+- **`apm: command not found` after install** — re-open the shell, or
+  add the install location to your `PATH` (the installer prints the
+  exact path).
+- **`apm install` fails to resolve** — confirm the repo path is
+  correct (`Aman-6875/devflow/skills/<skill-name>`) and that you have
+  network access to GitHub.
+- **`No harness detected` error** — your `apm.yml` is missing the
+  `targets:` field. Add it (see Step 2) or pass `--target <client>`
+  on the command line.
+- **Skills not triggering in your AI client** — restart the client
+  after `apm install`. Confirm the deployed files exist (e.g. for
+  Claude Code: `ls .claude/skills/`).
+- **`unpinned` warning** — for reproducible installs, pin each
+  dependency with `#v0.1.0` (or any tag/sha) as shown in Step 2.
 
 ---
 
