@@ -36,6 +36,7 @@ auto-chains. You stay in control.
 | [`tester`](skills/tester) | Writes test cases for code or a ticket, using the project's existing test framework |
 | [`pr-creator`](skills/pr-creator) | Opens a pull request with a clean title, structured description, and ticket linkage |
 | [`reviewer`](skills/reviewer) | Reviews a PR or local diff against SOLID, security, performance, and project conventions |
+| [`bug-finder`](skills/bug-finder) | Debugs a reported bug as a senior engineer — traces the code path, ranks hypotheses, finds the root cause, and proposes a minimal fix |
 
 ---
 
@@ -81,6 +82,7 @@ dependencies:
     - Aman-6875/devflow/skills/tester#v0.1.0
     - Aman-6875/devflow/skills/pr-creator#v0.1.0
     - Aman-6875/devflow/skills/reviewer#v0.1.0
+    - Aman-6875/devflow/skills/bug-finder#v0.1.0
 ```
 
 You can drop any skill you don't want — pick à la carte.
@@ -171,6 +173,7 @@ After install, invoke skills explicitly in your AI client:
 /tester     — to add tests once code is written
 /pr-creator — to open a PR once the branch is ready
 /reviewer   — to review a PR or diff
+/bug-finder — to debug a reported bug / error
 ```
 
 Or rely on auto-trigger — each skill's description includes natural-language
