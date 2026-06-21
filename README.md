@@ -76,13 +76,14 @@ targets:
 
 dependencies:
   apm:
-    # Pin to a tag for reproducible installs. Drop the #v0.1.0 to track main.
+    # Pin to a tag for reproducible installs. Drop the #v0.2.0 to track main.
+    # Latest tag is v0.2.0 — see the Changelog section below for what each tag includes.
     - Aman-6875/devflow/skills/planner#v0.1.0
     - Aman-6875/devflow/skills/executor#v0.1.0
     - Aman-6875/devflow/skills/tester#v0.1.0
     - Aman-6875/devflow/skills/pr-creator#v0.1.0
     - Aman-6875/devflow/skills/reviewer#v0.1.0
-    - Aman-6875/devflow/skills/bug-finder#v0.1.0
+    - Aman-6875/devflow/skills/bug-finder#v0.2.0   # only available from v0.2.0 onward
 ```
 
 You can drop any skill you don't want — pick à la carte.
@@ -200,6 +201,32 @@ system and never try to fetch tickets themselves.
 3. **Ticket-source agnostic** — bring your own ticket, in any format.
 4. **Minimal dependencies** — each skill is a self-contained `SKILL.md`,
    with reference files only when a skill genuinely needs structured data.
+
+---
+
+## Changelog / Version Pinning
+
+devflow follows [semver](https://semver.org/). Each tag is a frozen
+snapshot — pin to a tag for reproducible installs, or drop the pin
+to track `main`.
+
+| Tag | Skills included |
+|---|---|
+| **v0.2.0** *(latest)* | planner, executor, tester, pr-creator, reviewer, **bug-finder** (new) |
+| v0.1.0 | planner, executor, tester, pr-creator, reviewer |
+
+**Upgrading from v0.1.0 → v0.2.0**
+
+- Bump every existing skill from `#v0.1.0` to `#v0.2.0` in your
+  `apm.yml` (skill content is unchanged across this bump — same
+  files, new tag).
+- Add the `bug-finder` line if you want it:
+  `- Aman-6875/devflow/skills/bug-finder#v0.2.0`
+- Run `apm install`.
+
+> ⚠️ `bug-finder` does **not** exist in `v0.1.0`. Pinning it to
+> `#v0.1.0` will fail with `Subdirectory 'skills/bug-finder' not
+> found in repository`. Use `#v0.2.0` or later.
 
 ---
 
